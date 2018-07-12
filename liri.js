@@ -1,7 +1,7 @@
 // REQUIRE NPM MODULES
 require("dotenv").config();
 
-var keys = require("./assets/keys");
+var keys = require("./keys");
 var request = require('request');
 
 
@@ -28,9 +28,8 @@ function myTweets(){
 // OMDB using Request npm module
 
 function getMovie() {
-    var myKey = "17b63155";
 
-    var movieUrl = "https://www.omdbapi.com/?t=" + movieChoice + "&y=&plot=short&apikey=" + myKey; 
+    var movieUrl = "https://www.omdbapi.com/?t=" + movieChoice + "&y=&plot=short&apikey=trilogy"; 
 
    request(movieUrl, function(error, response, body){
        
