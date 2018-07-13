@@ -12,6 +12,3 @@ exports.spotify = {
   secret: process.env.SPOTIFY_SECRET
 };
 
-var movieKey = "17b63155";
-
-module.exports = movieKey;

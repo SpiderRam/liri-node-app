@@ -1,65 +1,84 @@
-// REQUIRE NPM MODULES
 require("dotenv").config();
+var fs = require('fs');
 
 var keys = require("./keys");
 var request = require('request');
+var Twitter = require('twitter');
+var Spotify = require('node-spotify-api');
 
 
-
-
-
-// GLOBAL VARIABLES
 var userInput = process.argv[2];
 var movieChoice = process.argv[3];
+var twit = process.argv[3];
+var song = process.argv[3];
 
 
+function getTweets(){
+    
+    var client = new Twitter(keys.twitter);
+    
+    var params = {screen_name: twit};
+    client.get('statuses/user_timeline', params, function(error, tweets, response) {
+    if (!error) {
+        console.log(tweets);
+    };
+    });
+};
+ 
+function getSongs(song) {
 
-
-
-
-
-// FUNCTIONS
-function myTweets(){
-    console.log("You chose Twitter");
-
-}
-
-
-// OMDB using Request npm module
+    var spotify = new Spotify(keys.spotify);
+    
+    spotify.search({ type: 'track', query: song }, function(err, data) {
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        };  
+        console.log(data); 
+    });
+};
 
 function getMovie() {
 
     var movieUrl = "https://www.omdbapi.com/?t=" + movieChoice + "&y=&plot=short&apikey=trilogy"; 
 
-   request(movieUrl, function(error, response, body){
+    request(movieUrl, function(error, response, body){
        
-       console.log('BODY: ', JSON.parse(body));
-   })
+        console.log('BODY: ', JSON.parse(body));
+    });
    
-}
+};
+
+function readTxtFile() {
+
+    fs.readFile("movie.txt", "utf8", function(err, data) {
+        if (err) {
+            console.log(err.message);
+        } else {
+            function searchSongFromRandomTxt(){
+                var randomSearch = data;
+                getSongs(randomSearch);
+            };
+            searchSongFromRandomTxt();
+        };
+    });
+};
 
 
-
-//LOGIC  CASE SWITCH STATEMENT
 switch (userInput){
+    
     case 'my-tweets':
-    myTweets();
+    getTweets();
     break;
 
     case 'spotify-this-song':
-    console.log("You chose Spotify");
+    getSongs();
     break;
 
     case 'movie-this':
     getMovie();
     break;
 
+    case 'do-what-it-says':
+    readTxtFile();
 
-}
-
-
-
-
-
-
-
+};
