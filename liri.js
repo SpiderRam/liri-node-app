@@ -80,5 +80,5 @@ switch (userInput){
 
     case 'do-what-it-says':
     readTxtFile();
-
+    break;
 };
