@@ -25,7 +25,7 @@ function getTweets(){
     });
 };
  
-function getSongs(song) {
+function getSongs(track) {
 
     var spotify = new Spotify(keys.spotify);
     
